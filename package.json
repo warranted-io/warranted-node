@@ -15,7 +15,7 @@
     "api"
   ],
   "author": "API Team <api@warranted.io>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/warranted/warranted-node/issues"
   },
