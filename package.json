@@ -1,0 +1,23 @@
+{
+  "name": "warranted-node",
+  "version": "1.0.0",
+  "description": "A Warranted helper library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/warranted/warranted-node.git"
+  },
+  "keywords": [
+    "warranted",
+    "api"
+  ],
+  "author": "API Team <api@warranted.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/warranted/warranted-node/issues"
+  },
+  "homepage": "https://github.com/warranted/warranted-node#readme"
+}
