@@ -8,8 +8,8 @@ A helper library for using the Warranted.io API.
 To make sure the installation was successful, try hitting the `/api/v1/me` API, like this:
 ```js
 // Your AccountSID and Auth Token from https://app.warranted.io/settings/webhook
-const accountSid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-const authToken = 'your_auth_token';
+const accountSid = 'WACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const authToken = 'WATXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 
 const client = require('warranted')(accountSid, authToken);
 
