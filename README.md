@@ -13,7 +13,7 @@ const authToken = 'your_auth_token';
 
 const client = require('warranted')(accountSid, authToken);
 
-client.me.get().then((message) => console.log(message.sid));
+client.me.get().then((reponse) => console.log(response));
 ```
 
 > [!WARNING]
