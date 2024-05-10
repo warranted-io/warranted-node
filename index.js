@@ -21,10 +21,18 @@ class client {
         this.headers = {};
     }
 
+    /**
+     * Set an alternate host. This can be helpful for compatability with proxies.
+     * @param {string} host - an alternate host, the prefix of all API requests
+     */
     setHost(host) {
         this.host = host;
     }
 
+    /**
+     * Set additional headers. This can be helpful for compatability with proxies.
+     * @param {object} headers - headers to add with any API requests
+     */
     setHeaders(headers) {
         this.headers = headers;
     }
@@ -200,7 +208,7 @@ class client {
         /**
          * Update the schema
          * @param {object} schema - the updated schema
-         * @returns {object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
+         * @returns {object} - Details at: http://app.warranted.io/docs/schema
          */
         update: async (schema) => {
             const response = await axios({
