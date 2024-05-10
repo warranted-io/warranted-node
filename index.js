@@ -1,4 +1,5 @@
 const axios = require('axios');
+const FormData = require('form-data');
 const { createHMAC, timeSafeCompare } = require('./cryptoHelper');
 
 class client {
@@ -66,8 +67,8 @@ class client {
     lawEnforcementRequests = {
         /**
          * Get either a list of lawEnforcementRequests or one specific request
-         * @param {object | string} options - If an object, it should contain either a `startAt` or `limit` parameter or both.
-         * If a string it should be a `lawEnforcementRequestId`
+         * @param {object | string} options - Optional. If an object, it should contain either a `startAt` or `limit` parameter or both.
+         * If a string it should be a `lawEnforcementRequestId`.
          * @returns {array | object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
          */
         get: async (options) => {
@@ -86,7 +87,7 @@ class client {
             }
             const response = await axios({
                 method: 'get',
-                url: url,
+                url,
                 auth: {
                     username: this.accountId,
                     password: this.authToken,
@@ -97,22 +98,63 @@ class client {
         },
 
         /**
-         * Update a lawEnforcementRequest
-         * @param {object} lawEnforcementRequest - a law enforcement request object.
+         * Submit a new lawEnforcementRequest
+         * @param {buffer} lawEnforcementRequestFile - a law enforcement request file as a buffer. Only pdfs are accepted.
          * @returns {object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
          */
-        update: async (lawEnforcementRequest) => {
+        add: async (lawEnforcementRequestFile) => {
+            const form = new FormData();
+            form.append('lawEncforementRequest', lawEnforcementRequestFile);
+
             const response = await axios({
-                method: 'put',
-                url: url,
+                method: 'post',
+                url: `${host}/api/v1/lawEnforcementRequest/new`,
                 auth: {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                data: {
-                    lawEnforcementRequest,
+                data: form,
+                headers: this.headers,
+            });
+            return response.data;
+        },
+
+        /**
+         * Update a lawEnforcementRequest
+         * @param {object} lawEnforcementRequest - an updated law enforcement request object.
+         * @returns {object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
+         */
+        update: async (lawEnforcementRequest) => {
+            if (!lawEnforcementRequest.id) {
+                throw new Error('id is missing');
+            }
+            const response = await axios({
+                method: 'put',
+                url: `${host}/api/v1/lawEnforcementRequests/${lawEnforcementRequest.id}`,
+                auth: {
+                    username: this.accountId,
+                    password: this.authToken,
                 },
+                data: lawEnforcementRequest,
                 headers: Object.assign({'Content-Type': 'application/json'}, this.headers),
+            });
+            return response.data;
+        },
+
+        /**
+         * Delete a lawEnforcementRequest
+         * @param {string} lawEnforcementRequestId - a law enforcement request id.
+         * @returns {object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
+         */
+        delete: async (lawEnforcementRequestId) => {
+            const response = await axios({
+                method: 'delete',
+                url: `${host}/api/v1/lawEnforcementRequests/${lawEnforcementRequestId}`,
+                auth: {
+                    username: this.accountId,
+                    password: this.authToken,
+                },
+                headers: this.headers,
             });
             return response.data;
         }
@@ -134,7 +176,45 @@ class client {
                 headers: this.headers,
             });
             return response.data;
-        },  
+        },
+    }
+
+    schema = {
+        /**
+         * Get the schema
+         * @returns {object} - Details at: http://app.warranted.io/docs/schema
+         */
+         get: async () => {
+            const response = await axios({
+                method: 'get',
+                url: `${host}/api/v1/schema`,
+                auth: {
+                    username: this.accountId,
+                    password: this.authToken,
+                },
+                headers: this.headers,
+            });
+            return response.data;
+        },
+
+        /**
+         * Update the schema
+         * @param {object} schema - the updated schema
+         * @returns {object} - Details at: http://app.warranted.io/docs/lawEnforcementRequests
+         */
+        update: async (schema) => {
+            const response = await axios({
+                method: 'put',
+                url: `${host}/api/v1/schema`,
+                auth: {
+                    username: this.accountId,
+                    password: this.authToken,
+                },
+                data:  schema,
+                headers: Object.assign({'Content-Type': 'application/json'}, this.headers),
+            });
+            return response.data;
+        },
     }
 }
 

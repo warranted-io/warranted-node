@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/warranted-io/warranted-node#readme",
   "dependencies": {
-    "axios": "^1.6.8"
+    "axios": "^1.6.8",
+    "form-data": "^4.0.0"
   }
 }
