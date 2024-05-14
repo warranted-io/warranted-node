@@ -1,5 +1,5 @@
 {
-  "name": "warranted-node",
+  "name": "@warranted-io/warranted-node",
   "version": "1.0.0",
   "description": "A Warranted helper library",
   "main": "index.js",
