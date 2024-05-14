@@ -1,6 +1,9 @@
 const axios = require('axios');
 const FormData = require('form-data');
+const os = require('os');
 const { createHMAC, timeSafeCompare } = require('./cryptoHelper');
+
+const version = '1.0.0';
 
 class client {
     /**
@@ -38,6 +41,28 @@ class client {
     }
 
     /**
+     * Internal method to get the user agent header
+     * @returns {string} the user agent header
+     */
+    _getUserAgentHeader() {
+        const osName = os.platform();
+        const architecture = os.arch();
+        const nodeVersion = process.version;
+
+        return `warranted-node/${version} (${osName} ${architecture}) Node.js/${nodeVersion}`;
+    }
+
+    /**
+     * Internal method to get request headers
+     * @returns {object} the headers for a request
+     */
+    _getRequestHeaders() {
+        return Object.assign({
+            'User-Agent': this._getUserAgentHeader(),
+        }, this.headers);
+    }
+
+    /**
      * Validate the signature of a request
      * @param {string} signature - the signature from the X-Warranted-Signature to compare against
      * @param {string} url - the url that received the request
@@ -66,7 +91,7 @@ class client {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         },
@@ -100,7 +125,7 @@ class client {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         },
@@ -122,7 +147,7 @@ class client {
                     password: this.authToken,
                 },
                 data: form,
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         },
@@ -144,7 +169,7 @@ class client {
                     password: this.authToken,
                 },
                 data: lawEnforcementRequest,
-                headers: Object.assign({'Content-Type': 'application/json'}, this.headers),
+                headers: Object.assign({'Content-Type': 'application/json'}, this._getRequestHeaders()),
             });
             return response.data;
         },
@@ -162,7 +187,7 @@ class client {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         }
@@ -181,7 +206,7 @@ class client {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         },
@@ -200,7 +225,7 @@ class client {
                     username: this.accountId,
                     password: this.authToken,
                 },
-                headers: this.headers,
+                headers: this._getRequestHeaders(),
             });
             return response.data;
         },
@@ -219,7 +244,7 @@ class client {
                     password: this.authToken,
                 },
                 data:  schema,
-                headers: Object.assign({'Content-Type': 'application/json'}, this.headers),
+                headers: Object.assign({'Content-Type': 'application/json'}, this._getRequestHeaders()),
             });
             return response.data;
         },
