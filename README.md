@@ -7,17 +7,17 @@ A helper library for using the Warranted.io API.
 ### Test your installation
 To make sure the installation was successful, try hitting the `/api/v1/me` API, like this:
 ```js
-// Your AccountSID and Auth Token from https://app.warranted.io/settings/webhook
-const accountSid = 'WACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-const authToken = 'WATXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const client = require('warranted');
 
-const client = require('warranted')(accountSid, authToken);
+// Get your Account Id and Auth Token from https://app.warranted.io/settings/webhook
+const accountId = process.env.WARRANTED_ACCOUNT_ID;
+const authToken = process.env.WARRANTED_AUTH_TOKEN;
+const warrantedClient = new client(accountId, authToken);
 
-client.me.get().then((reponse) => console.log(response));
+// Fetch and print the response object
+const response = await warrantedClient.me.get();
+console.log(response);
 ```
-
-> [!WARNING]
-> It's okay to hardcode your credentials when testing locally, but you should use environment variables to keep them secret before committing any code or deploying to production.
 
 ## Usage
 Check out [our docs](https://app.warranted.io/docs) for more details.
